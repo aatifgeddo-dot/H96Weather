@@ -1,1 +1,678 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>WeatherNow - Wetter Hannover</title>
+
+<style>
+:root {
+    --blue: #2878ad;
+    --dark-blue: #185780;
+    --red: #ed3545;
+    --white: #ffffff;
+    --background: #f3f7fa;
+    --text: #263b50;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+}
+
+/* HEADER */
+
+header {
+    background: white;
+    padding: 18px 6%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 3px 15px rgba(0,0,0,.05);
+    border-bottom: 3px solid var(--blue);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    width: 55px;
+    height: 55px;
+    background: var(--blue);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: white;
+    font-size: 34px;
+}
+
+.logo::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    width: 65%;
+    height: 5px;
+    background: var(--red);
+    border-radius: 5px;
+}
+
+.brand h1 {
+    color: var(--blue);
+    font-size: 25px;
+}
+
+.brand h1 span {
+    color: var(--red);
+}
+
+.brand p {
+    font-size: 12px;
+    color: #8293a3;
+    margin-top: 3px;
+}
+
+/* SEARCH */
+
+.search {
+    display: flex;
+    gap: 8px;
+}
+
+.search input {
+    padding: 12px 15px;
+    border: 1px solid #dce5ec;
+    border-radius: 9px;
+    outline: none;
+    width: 190px;
+    font-size: 14px;
+}
+
+button {
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    background: var(--dark-blue);
+}
+
+/* MAIN */
+
+.container {
+    max-width: 1150px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
+
+.welcome {
+    margin-bottom: 22px;
+}
+
+.welcome h2 {
+    font-size: 25px;
+    color: var(--blue);
+}
+
+.welcome p {
+    color: #8192a2;
+    margin-top: 7px;
+}
+
+/* WEATHER CARD */
+
+.main-weather {
+    background: white;
+    border-radius: 20px;
+    padding: 35px;
+    border-top: 5px solid var(--blue);
+    box-shadow: 0 8px 25px rgba(30,80,120,.07);
+}
+
+.weather-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.city h2 {
+    font-size: 29px;
+    color: var(--dark-blue);
+}
+
+.city p {
+    color: #8a9aa8;
+    margin-top: 8px;
+}
+
+.temperature-area {
+    text-align: center;
+}
+
+.weather-icon {
+    font-size: 65px;
+}
+
+.temperature {
+    font-size: 72px;
+    font-weight: bold;
+    color: var(--blue);
+}
+
+.description {
+    font-size: 18px;
+    color: #8293a3;
+    text-align: center;
+}
+
+/* DETAILS */
+
+.details {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-top: 35px;
+}
+
+.detail {
+    background: #f2f7fb;
+    padding: 22px 12px;
+    border-radius: 13px;
+    text-align: center;
+}
+
+.detail .symbol {
+    font-size: 27px;
+}
+
+.detail h3 {
+    font-size: 13px;
+    color: #8293a3;
+    margin: 10px 0;
+}
+
+.detail p {
+    font-size: 19px;
+    font-weight: bold;
+    color: var(--blue);
+}
+
+/* FORECAST */
+
+.forecast-title {
+    margin: 35px 0 20px;
+    color: var(--dark-blue);
+    font-size: 23px;
+}
+
+.forecast {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 12px;
+}
+
+.day {
+    background: white;
+    padding: 20px 8px;
+    text-align: center;
+    border-radius: 13px;
+    border-bottom: 3px solid var(--blue);
+    box-shadow: 0 4px 15px rgba(0,0,0,.04);
+}
+
+.day h3 {
+    color: var(--blue);
+    font-size: 14px;
+}
+
+.day .icon {
+    font-size: 32px;
+    margin: 17px 0;
+}
+
+.day p {
+    font-size: 12px;
+    color: #8493a0;
+    min-height: 30px;
+}
+
+.day strong {
+    display: block;
+    margin-top: 12px;
+    color: var(--dark-blue);
+    font-size: 14px;
+}
+
+.day small {
+    color: #94a1ad;
+}
+
+/* STATUS */
+
+.status {
+    text-align: center;
+    color: #8493a0;
+    padding: 20px;
+    font-size: 13px;
+}
+
+/* FOOTER */
+
+footer {
+    background: white;
+    border-top: 3px solid var(--red);
+    text-align: center;
+    padding: 25px;
+    color: #8795a1;
+    margin-top: 50px;
+    font-size: 13px;
+}
+
+/* MOBILE */
+
+@media(max-width: 800px) {
+    .forecast {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .details {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media(max-width: 550px) {
+    header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .search {
+        width: 100%;
+    }
+
+    .search input {
+        width: 100%;
+    }
+
+    .container {
+        margin-top: 25px;
+    }
+
+    .main-weather {
+        padding: 22px 15px;
+    }
+
+    .weather-top {
+        flex-direction: column;
+    }
+
+    .temperature {
+        font-size: 60px;
+    }
+
+    .forecast {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .welcome h2 {
+        font-size: 21px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="brand">
+        <div class="logo">☁</div>
+
+        <div>
+            <h1>Weather<span>Now</span></h1>
+            <p>Ihr Wetter weltweit</p>
+        </div>
+    </div>
+
+    <div class="search">
+        <input
+            id="cityInput"
+            type="text"
+            placeholder="Stadt suchen..."
+        >
+
+        <button onclick="searchCity()">
+            Suchen
+        </button>
+    </div>
+
+</header>
+
+<main class="container">
+
+    <div class="welcome">
+        <h2>Wetterübersicht</h2>
+        <p>Aktuelle Wetterinformationen und Vorhersagen</p>
+    </div>
+
+    <section class="main-weather">
+
+        <div class="weather-top">
+
+            <div class="city">
+                <h2 id="cityName">Hannover, Deutschland</h2>
+                <p id="date">Wetter wird geladen...</p>
+            </div>
+
+            <div class="temperature-area">
+                <div class="weather-icon" id="weatherIcon">
+                    ☁️
+                </div>
+
+                <div class="temperature" id="temperature">
+                    --°
+                </div>
+
+                <div class="description" id="description">
+                    Bitte warten...
+                </div>
+            </div>
+
+        </div>
+
+        <div class="details">
+
+            <div class="detail">
+                <div class="symbol">💧</div>
+                <h3>Luftfeuchtigkeit</h3>
+                <p id="humidity">--%</p>
+            </div>
+
+            <div class="detail">
+                <div class="symbol">🌬️</div>
+                <h3>Windgeschwindigkeit</h3>
+                <p id="wind">-- km/h</p>
+            </div>
+
+            <div class="detail">
+                <div class="symbol">🌡️</div>
+                <h3>Gefühlt</h3>
+                <p id="feels">--°</p>
+            </div>
+
+            <div class="detail">
+                <div class="symbol">🌧️</div>
+                <h3>Niederschlag</h3>
+                <p id="rain">-- mm</p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <h2 class="forecast-title">
+        7-Tage-Wettervorhersage
+    </h2>
+
+    <section class="forecast" id="forecast">
+
+        <p>Wetterdaten werden geladen...</p>
+
+    </section>
+
+    <div class="status" id="status">
+        Wetterdaten von Open-Meteo
+    </div>
+
+</main>
+
+<footer>
+    © 2026 WeatherNow |
+    Wetter für Hannover und weltweit
+</footer>
+
+<script>
+
+const weatherTypes = {
+    0: ["Klarer Himmel", "☀️"],
+    1: ["Überwiegend klar", "🌤️"],
+    2: ["Teilweise bewölkt", "⛅"],
+    3: ["Bewölkt", "☁️"],
+    45: ["Nebelig", "🌫️"],
+    48: ["Nebel", "🌫️"],
+    51: ["Leichter Nieselregen", "🌦️"],
+    53: ["Nieselregen", "🌦️"],
+    55: ["Starker Nieselregen", "🌧️"],
+    61: ["Leichter Regen", "🌧️"],
+    63: ["Mäßiger Regen", "🌧️"],
+    65: ["Starker Regen", "🌧️"],
+    71: ["Leichter Schneefall", "🌨️"],
+    73: ["Schneefall", "❄️"],
+    75: ["Starker Schneefall", "❄️"],
+    80: ["Regenschauer", "🌦️"],
+    81: ["Starke Regenschauer", "🌧️"],
+    82: ["Heftige Regenschauer", "🌧️"],
+    95: ["Gewitter", "⛈️"],
+    96: ["Gewitter mit Hagel", "⛈️"],
+    99: ["Starkes Gewitter", "⛈️"]
+};
+
+function getWeather(code) {
+    return weatherTypes[code] ||
+        ["Wetterinformation", "🌤️"];
+}
+
+function showDate() {
+    document.getElementById("date").textContent =
+        new Date().toLocaleDateString("de-DE", {
+            weekday: "long",
+            day: "numeric",
+            month: "long",
+            year: "numeric"
+        });
+}
+
+async function searchCity() {
+
+    const input = document.getElementById("cityInput");
+    const city = input.value.trim();
+
+    if (!city) {
+        input.focus();
+        return;
+    }
+
+    document.getElementById("status").textContent =
+        "Stadt wird gesucht...";
+
+    try {
+
+        const url =
+            "https://geocoding-api.open-meteo.com/v1/search?name=" +
+            encodeURIComponent(city) +
+            "&count=1&language=de&format=json";
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("Suchfehler");
+        }
+
+        const data = await response.json();
+
+        if (!data.results || data.results.length === 0) {
+            document.getElementById("status").textContent =
+                "Stadt nicht gefunden. Bitte erneut versuchen.";
+            return;
+        }
+
+        const place = data.results[0];
+
+        await loadWeather(
+            place.latitude,
+            place.longitude,
+            place.name,
+            place.country || ""
+        );
+
+    } catch (error) {
+
+        document.getElementById("status").textContent =
+            "Verbindungsfehler. Bitte Internetverbindung prüfen.";
+
+    }
+}
+
+async function loadWeather(lat, lon, city, country) {
+
+    document.getElementById("status").textContent =
+        "Wetterdaten werden geladen...";
+
+    try {
+
+        const url =
+            "https://api.open-meteo.com/v1/forecast?" +
+            "latitude=" + lat +
+            "&longitude=" + lon +
+            "&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,wind_speed_10m,precipitation" +
+            "&daily=weather_code,temperature_2m_max,temperature_2m_min" +
+            "&timezone=auto" +
+            "&forecast_days=7";
+
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error("Wetterdaten nicht verfügbar");
+        }
+
+        const data = await response.json();
+
+        const current = data.current;
+
+        document.getElementById("cityName").textContent =
+            city + ", " + country;
+
+        document.getElementById("temperature").textContent =
+            Math.round(current.temperature_2m) + "°";
+
+        document.getElementById("humidity").textContent =
+            current.relative_humidity_2m + "%";
+
+        document.getElementById("wind").textContent =
+            current.wind_speed_10m + " km/h";
+
+        document.getElementById("feels").textContent =
+            Math.round(current.apparent_temperature) + "°";
+
+        document.getElementById("rain").textContent =
+            current.precipitation + " mm";
+
+        const weather = getWeather(current.weather_code);
+
+        document.getElementById("weatherIcon").textContent =
+            weather[1];
+
+        document.getElementById("description").textContent =
+            weather[0];
+
+        // 7 DAYS FORECAST
+
+        const forecast = document.getElementById("forecast");
+
+        forecast.innerHTML = "";
+
+        for (let i = 0; i < 7; i++) {
+
+            const weatherInfo =
+                getWeather(data.daily.weather_code[i]);
+
+            const date = new Date(
+                data.daily.time[i] + "T12:00:00"
+            );
+
+            const dayName = date.toLocaleDateString(
+                "de-DE",
+                { weekday: "short" }
+            );
+
+            forecast.innerHTML += `
+                <div class="day">
+
+                    <h3>${i === 0 ? "Heute" : dayName}</h3>
+
+                    <div class="icon">
+                        ${weatherInfo[1]}
+                    </div>
+
+                    <p>${weatherInfo[0]}</p>
+
+                    <strong>
+                        ${Math.round(data.daily.temperature_2m_max[i])}°
+                    </strong>
+
+                    <small>
+                        ${Math.round(data.daily.temperature_2m_min[i])}°
+                    </small>
+
+                </div>
+            `;
+        }
+
+        document.getElementById("status").textContent =
+            "✓ Aktuelle Wetterdaten erfolgreich geladen";
+
+        showDate();
+
+    } catch (error) {
+
+        document.getElementById("status").textContent =
+            "Wetterdaten konnten nicht geladen werden. Bitte später erneut versuchen.";
+
+    }
+}
+
+// DEFAULT CITY: HANNOVER
+
+showDate();
+
+loadWeather(
+    52.3759,
+    9.7320,
+    "Hannover",
+    "Deutschland"
+);
+
+// ENTER KEY SEARCH
+
+document.getElementById("cityInput")
+.addEventListener("keydown", function(event) {
+
+    if (event.key === "Enter") {
+        searchCity();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
